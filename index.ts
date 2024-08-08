@@ -1,24 +1,41 @@
-// Global variables
-let userKnowledgeLevel: number = 5;
-let userID: number = 0;
-let currentReviewLevels: {
+// Types
+
+type ReviewLevel = {
   id: number;
   nextReview: number;
   score: number;
   userID: number;
-}[] = [];
-let allUserData: {
+}
+
+type UserData = {
   id: number;
-  currentReviewLevels: {}[];
-}[] = JSON.parse(await Bun.file("data/userData.json").text());
-let userData: { id: number; currentReviewLevels: {}[] };
+  currentReviewLevels: ReviewLevel[];
+}
+
+// Global variables
+let userKnowledgeLevel: number = 5;
+let userID: number = 0;
+let currentReviewLevels: ReviewLevel[] = [];
+let allUserData: UserData[] = JSON.parse(await Bun.file("data/userData.json").text());
+let userData: UserData;
 
 // Helper functions
 function needsReview(word: { JLPTLevel: number; id: number }) : void {
-  
+  // Check if the word is in the current review levels
+  let index = search(word.id);
+
+  // If the word is not in the current review levels, add it
+  if (index == null) {
+    currentReviewLevels.push({
+      id: word.id,
+      nextReview: Date.now(),
+      score: 0,
+      userID: userID,
+    });
+  }
 }
 
-function saveUserData(data: { id: number; currentReviewLevels: {}[] }) {
+function saveUserData(data: { id: number; currentReviewLevels: ReviewLevel[] }) {
   // Find the ID of the user in the array
   // Replace the user data with the new data
   // Save the new data to the file
@@ -61,12 +78,13 @@ for await (const line of console) {
 }
 
 // Check if the user ID exists and then save the index
-const userIndex : number = allUserData.findIndex((user) => user.id == userID);
+const userIndex: number = allUserData.findIndex((user) => user.id == userID);
 
 if (userIndex != -1) {
   process.stdout.write("User ID found. Loading user data...\n");
 
   userData = allUserData[userIndex];
+  currentReviewLevels = userData.currentReviewLevels;
 
   console.log(userData);
 
