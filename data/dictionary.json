@@ -1,3 +1,302 @@
 [
-  
+  {
+    "JLPTLevel": 5,
+    "id": 1,
+    "term": "浴びる",
+    "definition": "to bathe, to take a shower"
+  },
+  {
+    "JLPTLevel": 5,
+    "id": 2,
+    "term": "遊ぶ",
+    "definition": "to play, to enjoy oneself"
+  },
+  {
+    "JLPTLevel": 5,
+    "id": 3,
+    "term": "歌う",
+    "definition": "to sing"
+  },
+  {
+    "JLPTLevel": 5,
+    "id": 4,
+    "term": "起きる",
+    "definition": "to get up, to rise"
+  }
+  {
+      "JLPTLevel": 5,
+      "id": 5,
+      "term": "新しい",
+      "definition": "new"
+    },
+    {
+      "JLPTLevel": 5,
+      "id": 6,
+      "term": "古い",
+      "definition": "old"
+    },
+    {
+      "JLPTLevel": 5,
+      "id": 7,
+      "term": "速い",
+      "definition": "fast"
+    },
+    {
+      "JLPTLevel": 5,
+      "id": 8,
+      "term": "遅い",
+      "definition": "slow"
+    },
+    {
+      "JLPTLevel": 5,
+      "id": 9,
+      "term": "大きい",
+      "definition": "big"
+    },
+    {
+      "JLPTLevel": 5,
+      "id": 10,
+      "term": "小さい",
+      "definition": "small"
+    },
+    {
+      "JLPTLevel": 4,
+      "id": 11,
+      "term": "言葉",
+      "definition": "word"
+    },
+    {
+      "JLPTLevel": 4,
+      "id": 12,
+      "term": "友達",
+      "definition": "friend"
+    },
+    {
+      "JLPTLevel": 4,
+      "id": 13,
+      "term": "家族",
+      "definition": "family"
+    },
+    {
+      "JLPTLevel": 4,
+      "id": 14,
+      "term": "学校",
+      "definition": "school"
+    },
+    {
+      "JLPTLevel": 4,
+      "id": 15,
+      "term": "仕事",
+      "definition": "job"
+    },
+    {
+      "JLPTLevel": 4,
+      "id": 16,
+      "term": "時間",
+      "definition": "time"
+    },
+    {
+      "JLPTLevel": 4,
+      "id": 17,
+      "term": "日本",
+      "definition": "Japan"
+    },
+    {
+      "JLPTLevel": 4,
+      "id": 18,
+      "term": "食べ物",
+      "definition": "food"
+    },
+    {
+      "JLPTLevel": 4,
+      "id": 19,
+      "term": "飲み物",
+      "definition": "drink"
+    },
+    {
+      "JLPTLevel": 4,
+      "id": 20,
+      "term": "楽しい",
+      "definition": "fun"
+    },
+    {
+      "JLPTLevel": 3,
+      "id": 21,
+      "term": "自由",
+      "definition": "freedom"
+    },
+    {
+      "JLPTLevel": 3,
+      "id": 22,
+      "term": "理由",
+      "definition": "reason"
+    },
+    {
+      "JLPTLevel": 3,
+      "id": 23,
+      "term": "経験",
+      "definition": "experience"
+    },
+    {
+      "JLPTLevel": 3,
+      "id": 24,
+      "term": "成功",
+      "definition": "success"
+    },
+    {
+      "JLPTLevel": 3,
+      "id": 25,
+      "term": "失敗",
+      "definition": "failure"
+    },
+    {
+      "JLPTLevel": 3,
+      "id": 26,
+      "term": "意味",
+      "definition": "meaning"
+    },
+    {
+      "JLPTLevel": 3,
+      "id": 27,
+      "term": "目的",
+      "definition": "purpose"
+    },
+    {
+      "JLPTLevel": 3,
+      "id": 28,
+      "term": "関係",
+      "definition": "relationship"
+    },
+    {
+      "JLPTLevel": 3,
+      "id": 29,
+      "term": "説明",
+      "definition": "explanation"
+    },
+    {
+      "JLPTLevel": 3,
+      "id": 30,
+      "term": "可能",
+      "definition": "possible"
+    },
+    {
+      "JLPTLevel": 2,
+      "id": 31,
+      "term": "経済",
+      "definition": "economy"
+    },
+    {
+      "JLPTLevel": 2,
+      "id": 32,
+      "term": "政治",
+      "definition": "politics"
+    },
+    {
+      "JLPTLevel": 2,
+      "id": 33,
+      "term": "科学",
+      "definition": "science"
+    },
+    {
+      "JLPTLevel": 2,
+      "id": 34,
+      "term": "文化",
+      "definition": "culture"
+    },
+    {
+      "JLPTLevel": 2,
+      "id": 35,
+      "term": "社会",
+      "definition": "society"
+    },
+    {
+      "JLPTLevel": 2,
+      "id": 36,
+      "term": "歴史",
+      "definition": "history"
+    },
+    {
+      "JLPTLevel": 2,
+      "id": 37,
+      "term": "哲学",
+      "definition": "philosophy"
+    },
+    {
+      "JLPTLevel": 2,
+      "id": 38,
+      "term": "芸術",
+      "definition": "art"
+    },
+    {
+      "JLPTLevel": 2,
+      "id": 39,
+      "term": "宗教",
+      "definition": "religion"
+    },
+    {
+      "JLPTLevel": 2,
+      "id": 40,
+      "term": "教育",
+      "definition": "education"
+    },
+    {
+          "JLPTLevel": 1,
+          "id": 41,
+          "term": "矛盾",
+          "definition": "contradiction"
+        },
+        {
+          "JLPTLevel": 1,
+          "id": 42,
+          "term": "概念",
+          "definition": "concept"
+        },
+        {
+          "JLPTLevel": 1,
+          "id": 43,
+          "term": "論理",
+          "definition": "logic"
+        },
+        {
+          "JLPTLevel": 1,
+          "id": 44,
+          "term": "哲学",
+          "definition": "philosophy"
+        },
+        {
+          "JLPTLevel": 1,
+          "id": 45,
+          "term": "理論",
+          "definition": "theory"
+        },
+        {
+          "JLPTLevel": 1,
+          "id": 46,
+          "term": "実践",
+          "definition": "practice"
+        },
+        {
+          "JLPTLevel": 1,
+          "id": 47,
+          "term": "抽象",
+          "definition": "abstract"
+        },
+        {
+          "JLPTLevel": 1,
+          "id": 48,
+          "term": "具体",
+          "definition": "concrete"
+        },
+        {
+          "JLPTLevel": 1,
+          "id": 49,
+          "term": "主義",
+          "definition": "principle"
+        },
+        {
+          "JLPTLevel": 1,
+          "id": 50,
+          "term": "価値",
+          "definition": "value"
+        }
 ]
