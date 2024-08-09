@@ -16,12 +16,13 @@ type UserData = {
 type Word = {
   JLPTLevel: number;
   id: number;
+  term: string;
+  definition: string;
 };
 
 // Global variables
 let userKnowledgeLevel: number = 5;
 let userID: number = 0;
-let currentReviewLevels: ReviewLevel[] = [];
 let allUserData: UserData[] = JSON.parse(
   await Bun.file("data/userData.json").text(),
 );
@@ -34,7 +35,7 @@ function needsReview(word: Word): boolean {
 
   // If the word is not in the current review levels, add it
   if (index == null) {
-    currentReviewLevels.push({
+    userData.currentReviewLevels.push({
       id: word.id,
       nextReview: Date.now(),
       score: 0,
@@ -43,6 +44,9 @@ function needsReview(word: Word): boolean {
 
     return true;
   } else {
+    if (userData.currentReviewLevels[index].nextReview < Date.now()) {
+      return true;
+    } 
   }
 
   return false;
@@ -65,17 +69,17 @@ function saveUserData(data: UserData) {
 // Binary search function for the current review levels
 function searchReviews(searchId: number): number | null {
   let lowerBound: number = 0;
-  let upperBound: number = currentReviewLevels.length - 1;
+  let upperBound: number = userData.currentReviewLevels.length - 1;
   let middle: number;
 
   while (lowerBound < upperBound) {
     middle = Math.floor((upperBound + lowerBound) % 2);
 
-    if (currentReviewLevels[middle].id == searchId) {
+    if (userData.currentReviewLevels[middle].id == searchId) {
       return middle;
     }
 
-    if (currentReviewLevels[middle].id > searchId) {
+    if (userData.currentReviewLevels[middle].id > searchId) {
       upperBound = middle - 1;
     } else {
       lowerBound = middle + 1;
@@ -119,7 +123,7 @@ async function main() {
 
   // Load user data
   userData = await loadUser(parseInt(prompt("What is youre ID?\n") || "0"));
-  currentReviewLevels = userData.currentReviewLevels; // Set the current review levels globally
+
 }
 
 main();
