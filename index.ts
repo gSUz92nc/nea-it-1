@@ -4,7 +4,6 @@ type ReviewLevel = {
   id: number;
   nextReview: number;
   score: number;
-  userID: number;
 };
 
 type UserData = {
@@ -46,7 +45,9 @@ function needsReview(word: Word): boolean {
   if (index == null) {
     return true;
   } else {
+
     if (userData.currentReviewLevels[index].nextReview < Date.now()) {
+
       return true;
     }
   }
@@ -68,34 +69,23 @@ function saveUserData(data: UserData) {
   }
 }
 
-// Binary search function for the current review levels
+// Search function for the current review levels
 function searchReviews(searchId: number): number | null {
-  let lowerBound: number = 0;
-  let upperBound: number = userData.currentReviewLevels.length - 1;
-  let middle: number;
-
-  while (lowerBound < upperBound) {
-    middle = Math.floor((upperBound + lowerBound) % 2);
-
-    if (userData.currentReviewLevels[middle].id == searchId) {
-      return middle;
-    }
-
-    if (userData.currentReviewLevels[middle].id > searchId) {
-      upperBound = middle - 1;
-    } else {
-      lowerBound = middle + 1;
-    }
+  
+  const index = userData.currentReviewLevels.findIndex(
+    (review) => review.id === searchId,
+  );
+  
+  if (index == -1) {
+    return null;
   }
-
-  return null;
+  
+  return index;
 }
 
 async function loadUser(id: number): Promise<UserData> {
   // Check if the user ID exists and then save the index
   const userIndex = allUserData.findIndex((user) => user.id == id);
-
-  console.log("User Index:", userIndex);
 
   if (userIndex != -1) {
     process.stdout.write("User ID found. Loading user data...\n");
@@ -113,7 +103,9 @@ async function loadUser(id: number): Promise<UserData> {
         prompt("What is your knowledge level (1-5)?\n") || "5",
       );
       if (knowledgeLevel < 1 || knowledgeLevel > 5) {
-        console.log("Invalid input. Please enter a number between 1 and 5.");
+        process.stdout.write(
+          "Invalid input. Please enter a number between 1 and 5.",
+        );
       }
     } while (knowledgeLevel < 1 || knowledgeLevel > 5);
 
@@ -132,11 +124,98 @@ async function loadUser(id: number): Promise<UserData> {
 
 function generateQuestion(word: Word | null) {
   if (word == null) {
-    process.stdout.write("You have no words to review. Good job!\n");
+    process.stdout.write("You have covered all your words. Good job!\n");
     process.exit();
   }
 
-  return `This is a placeholder question for the word: ${word.term}`;
+  // Randomize whther to show the definition or the term
+  const showDefinition: boolean = Math.random() > 0.5;
+
+  // Generate 3 wrong answers of the same JLPT level
+  const sameLevelWords = words.filter(
+    (w) => w.JLPTLevel === word.JLPTLevel && w.id !== word.id,
+  );
+  const shuffledWords = sameLevelWords.sort(() => 0.5 - Math.random());
+  const wrongAnswers = shuffledWords
+    .slice(0, 3)
+    .map((w) => (showDefinition ? w.definition : w.term));
+
+  // Display the question in a readable format and the random order
+  process.stdout.write(
+    `Question: ${showDefinition ? `What is the definition of ${word.term}` : `What is the term for ${word.definition}`}?\n`,
+  );
+
+  const answers = [
+    showDefinition ? word.definition : word.term,
+    ...wrongAnswers,
+  ].sort(() => 0.5 - Math.random());
+
+  answers.forEach((answer, index) => {
+    process.stdout.write(`${index + 1}. ${answer}\n`);
+  });
+
+  // Get the user's answer
+  let userAnswer: number;
+  do {
+    userAnswer =
+      parseInt(prompt("Enter the number of the correct answer:\n") as string) -
+      1;
+    if (userAnswer < 0 || userAnswer > 3) {
+      process.stdout.write(
+        "Invalid input. Please enter a number between 1 and 4.",
+      );
+    }
+  } while (userAnswer < 0 || userAnswer > 3);
+
+  // Check if the user's answer is correct
+  if (answers[userAnswer] === (showDefinition ? word.definition : word.term)) {
+    process.stdout.write("Correct!\n");
+    updateReviewLevels(word, true);
+  } else {
+    process.stdout.write(
+      `Incorrect. The correct answer is: ${showDefinition ? word.term : word.definition}\n`,
+    );
+  }
+}
+
+// Calculate the next review time of a correct answer (If not correct next review time is 0 "so it will be asked again")
+function calculateNextReviewTime(word: Word, indexOfReview: number): number {
+  // Get the current review level of the word
+  let currentReviewLevel = userData.currentReviewLevels[indexOfReview].score;
+
+  const reviewTimes: { [key: number]: number } = {
+    1: 3600, // 1 Hour
+    2: 43200, // 12 Hours
+    3: 432000, // 5 Days
+    4: 1814400, // 21 Days
+    5: 3888000, // 45 Days
+    6: 20736000, // 240 days
+    7: 31556926, // 1 Year
+  };
+
+  return Date.now() + reviewTimes[currentReviewLevel + 1] || 0;
+}
+
+function updateReviewLevels(word: Word, correct: boolean) {
+  if (correct) {
+    // Check if the word is in the current review levels
+    let index = searchReviews(word.id);
+
+    // If the word is not in the current review levels add it
+    if (index == null) {
+      userData.currentReviewLevels.push({
+        id: word.id,
+        nextReview: Date.now() + 3600,
+        score: 1,
+      });
+    } else {
+      userData.currentReviewLevels[index].nextReview = calculateNextReviewTime(
+        word,
+        index,
+      );
+      userData.currentReviewLevels[index].score++;
+    }
+  }
 }
 
 async function main() {
@@ -158,9 +237,7 @@ async function main() {
       continue;
     }
 
-    const question = generateQuestion(word);
-
-    console.log(question);
+    generateQuestion(word);
 
     // Check if the user wants to continue if not save and close
     if (prompt("Do you want to continue? (y/n)\n") == "n") {
