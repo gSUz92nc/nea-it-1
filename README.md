@@ -1,5 +1,9 @@
 # nea-it-1
 
+## Description
+
+This is iteration 1 of my NEA project designed to help students learn Japanese. This iteration is a simple command line interface that allows the user to test their knowledge of Japanese vocabulary.
+
 To install dependencies:
 
 ```bash
