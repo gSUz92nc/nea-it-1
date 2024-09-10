@@ -21,7 +21,6 @@ type Word = {
 
 // Global variables
 const words: Word[] = JSON.parse(await Bun.file("data/dictionary.json").text());
-let userID: number = 0;
 let allUserData: UserData[] = JSON.parse(
   await Bun.file("data/userData.json").text(),
 );
@@ -62,11 +61,10 @@ function saveUserData(data: UserData) {
   // If not found create a new user else update the existing user
   if (index == -1) {
     allUserData.push(data);
-    Bun.write("data/userData.json", JSON.stringify(allUserData));
   } else {
     allUserData[index] = data;
-    Bun.write("data/userData.json", JSON.stringify(allUserData));
   }
+    Bun.write("data/userData.json", JSON.stringify(allUserData));
 }
 
 // Search function for the current review levels
