@@ -44,9 +44,7 @@ function needsReview(word: Word): boolean {
   if (index == null) {
     return true;
   } else {
-
     if (userData.currentReviewLevels[index].nextReview < Date.now()) {
-
       return true;
     }
   }
@@ -64,20 +62,19 @@ function saveUserData(data: UserData) {
   } else {
     allUserData[index] = data;
   }
-    Bun.write("data/userData.json", JSON.stringify(allUserData));
+  Bun.write("data/userData.json", JSON.stringify(allUserData));
 }
 
 // Search function for the current review levels
 function searchReviews(searchId: number): number | null {
-  
   const index = userData.currentReviewLevels.findIndex(
     (review) => review.id === searchId,
   );
-  
+
   if (index == -1) {
     return null;
   }
-  
+
   return index;
 }
 
@@ -170,6 +167,7 @@ function generateQuestion(word: Word | null) {
     process.stdout.write("Correct!\n");
     updateReviewLevels(word, true);
   } else {
+    updateReviewLevels(word, false);
     process.stdout.write(
       `Incorrect. The correct answer is: ${showDefinition ? word.term : word.definition}\n`,
     );
@@ -195,10 +193,10 @@ function calculateNextReviewTime(word: Word, indexOfReview: number): number {
 }
 
 function updateReviewLevels(word: Word, correct: boolean) {
-  if (correct) {
-    // Check if the word is in the current review levels
-    let index = searchReviews(word.id);
+  // Check if the word is in the current review levels
+  let index = searchReviews(word.id);
 
+  if (correct) {
     // If the word is not in the current review levels add it
     if (index == null) {
       userData.currentReviewLevels.push({
@@ -208,10 +206,21 @@ function updateReviewLevels(word: Word, correct: boolean) {
       });
     } else {
       userData.currentReviewLevels[index].nextReview = calculateNextReviewTime(
-        word,
+        word, 
         index,
       );
       userData.currentReviewLevels[index].score++;
+    }
+  } else {
+    if (index == null) {
+      userData.currentReviewLevels.push({
+        id: word.id,
+        nextReview: Date.now(),
+        score: 1,
+      });
+    } else {
+      userData.currentReviewLevels[index].nextReview = Date.now();
+      userData.currentReviewLevels[index].score = 1;
     }
   }
 }
